@@ -1,32 +1,29 @@
-tools {
-    maven 'Maven'
-    jdk 'JDK'
-}
+pipeline {
+    agent any
 
-stages {
-
-    stage('Checkout') {
-        steps {
-            git branch: 'main', url: 'https://github.com/swastisudha2025-source/devops_project.git'
-
-        }
+    tools {
+        jdk 'JDK21'
+        maven 'maven'
     }
 
-    stage('Build') {
-        steps {
-            bat 'mvn clean package'
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/msk2143/pg6.git'
+            }
         }
-    }
 
-    stage('Test') {
-        steps {
-            bat 'mvn test'
+        stage('Build') {
+            steps {
+                bat 'mvn clean package'
+            }
         }
-    }
-}
-post {
-    always {
-                junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
 
+        stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
     }
 }
